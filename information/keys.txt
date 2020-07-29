@@ -1,0 +1,10 @@
+biweekly_cases
+biweekly_deaths
+date
+location
+new_cases
+new_deaths
+total_cases
+total_deaths
+weekly_cases
+weekly_deaths

@@ -1,0 +1,1 @@
+function drawMap(dataset, currentSelectedDate) {}
