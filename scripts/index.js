@@ -1,11 +1,11 @@
-const input = d3.select("#date-range");
-const currentDate = d3.select("#currentDate");
 d3.csv("./data/full_data.csv", formatCSV)
 	.then(setUpDashboard)
 	.catch(handleError);
 
 function setUpDashboard(data) {
 	const dataset = formatData(data);
+	const input = d3.select("#date-range");
+	const currentDate = d3.select("#currentDate");
 	input.attr("min", 0);
 	input.attr("max", Object.keys(dataset.data).length);
 	input.attr("value", Object.keys(dataset.data).length);
@@ -14,7 +14,7 @@ function setUpDashboard(data) {
 	const timeFormat = d3.timeFormat("%Y-%m-%d");
 	const inputScale = d3
 		.scaleLinear()
-		.domain([0, input.attr("max") - 1])
+		.domain([0, input.attr("max")])
 		.range(d3.extent(dates));
 	function changeInputRange(value) {
 		const currentSelectedDate = inputScale(value);
