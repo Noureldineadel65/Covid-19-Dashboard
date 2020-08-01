@@ -1,4 +1,5 @@
-class Tooltip {
+import * as d3 from "d3";
+export class Tooltip {
 	constructor(id) {
 		const currentDiv = d3.select(`#${id}`);
 		this.tooltip = currentDiv.append("div");

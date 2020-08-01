@@ -1,4 +1,5 @@
-function formatCSV(row) {
+import * as d3 from "d3";
+export function formatCSV(row) {
 	return {
 		biweekly_cases: +row.biweekly_cases,
 		biweekly_deaths: +row.biweekly_deaths,
@@ -10,7 +11,7 @@ function formatCSV(row) {
 		weekly_deaths: +row.weekly_deaths,
 	};
 }
-function formatData(data) {
+export function formatData(data) {
 	const allCountriesDates = [...new Set(data.map((e) => e.date))];
 	const minYear = allCountriesDates[0];
 	const maxYear = allCountriesDates.splice(-1)[0];
@@ -28,7 +29,7 @@ function formatData(data) {
 		maxYear,
 	};
 }
-function generateChartContainer(id, margins) {
+export function generateChartContainer(id, margins) {
 	const currentDiv = document.querySelector(`#${id}`);
 
 	const [top, right, bottom, left] = margins;

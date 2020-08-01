@@ -1,9 +1,15 @@
+import "../styles/scss/main.scss";
+import * as d3 from "d3";
+import { formatCSV, formatData } from "./utils";
+import drawPie from "./draw-pie";
+import drawMap from "./draw-map";
 d3.csv("./data/full_data.csv", formatCSV)
 	.then(setUpDashboard)
 	.catch(handleError);
 
 function setUpDashboard(data) {
 	const dataset = formatData(data);
+
 	const input = d3.select("#date-range");
 	const currentDate = d3.select("#currentDate");
 	input.attr("min", 0);

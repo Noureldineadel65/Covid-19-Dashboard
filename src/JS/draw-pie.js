@@ -1,4 +1,7 @@
-function drawPie(datasets, currentSelectedDate) {
+import * as d3 from "d3";
+import { Tooltip } from "./Tooltip";
+import { generateChartContainer } from "./utils";
+export default function (datasets, currentSelectedDate) {
 	const { dimensions, wrapper, bounds } = generateChartContainer(
 		"pie-chart",
 		[0, 0, 0, 0]
@@ -42,7 +45,7 @@ function drawPie(datasets, currentSelectedDate) {
 		const { location, weekly_cases } = datum.data;
 		pieTooltip.html(`
 		<p>${location}</p>
-		<p>${weekly_cases}</p>
+		<p>${weekly_cases.toLocaleString()} Cases</p>
 		`);
 		pieTooltip.show();
 		d3.select(this).transition().duration(250).attr("fill", "#fff");
@@ -56,7 +59,4 @@ function drawPie(datasets, currentSelectedDate) {
 	}
 
 	// pieTooltip.getTooltip().innerHTML = `<p>HIIIIII</p>`;
-	pieTooltip.html(
-		`<p>HIIIIIIiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii</p>`
-	);
 }
