@@ -30,10 +30,11 @@ function formatData(data) {
 }
 function generateChartContainer(id, margins) {
 	const currentDiv = document.querySelector(`#${id}`);
+
 	const [top, right, bottom, left] = margins;
 	const dimensions = {
-		width: currentDiv.clientWidth,
-		height: currentDiv.clientHeight,
+		width: currentDiv.clientWidth * 0.65,
+		height: currentDiv.clientHeight * 0.65,
 		margin: {
 			top,
 			right,
@@ -50,17 +51,23 @@ function generateChartContainer(id, margins) {
 	const wrapper = d3
 		.select(`#${id}`)
 		.append("svg")
-		.attr("width", dimensions.width)
-		.attr(
-			"transform",
-			`translate(${dimensions.width / 2}, ${dimensions.height / 2})`
-		)
-		.attr("height", dimensions.height);
+		.attr("width", currentDiv.clientWidth)
+
+		.attr("height", currentDiv.clientHeight);
+
 	const bounds = wrapper
 		.append("g")
-		.style(
+		.attr(
 			"transform",
-			`translate(${dimensions.margin.left}px, ${dimensions.margin.top}px)`
+			`translate(${
+				id === "pie-chart"
+					? currentDiv.clientWidth / 2
+					: dimensions.margin.left
+			}, ${
+				id === "pie-chart"
+					? currentDiv.clientHeight / 2
+					: dimensions.margin.top
+			})`
 		);
 
 	return { dimensions, wrapper, bounds };
