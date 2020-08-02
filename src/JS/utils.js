@@ -1,4 +1,5 @@
 import * as d3 from "d3";
+import { Tooltip } from "./Tooltip";
 export function formatCSV(row) {
 	return {
 		biweekly_cases: +row.biweekly_cases,
@@ -29,13 +30,13 @@ export function formatData(data) {
 		maxYear,
 	};
 }
-export function generateChartContainer(id, margins) {
+export function generateChartContainer(id, margins, enableTooltip = false) {
 	const currentDiv = document.querySelector(`#${id}`);
 
 	const [top, right, bottom, left] = margins;
 	const dimensions = {
-		width: currentDiv.clientWidth * 0.65,
-		height: currentDiv.clientHeight * 0.65,
+		width: currentDiv.clientWidth * 0.4,
+		height: currentDiv.clientHeight * 0.4,
 		margin: {
 			top,
 			right,
@@ -71,5 +72,31 @@ export function generateChartContainer(id, margins) {
 			})`
 		);
 
-	return { dimensions, wrapper, bounds };
+	const resultObject = {
+		dimensions,
+		wrapper,
+		bounds,
+	};
+	if (enableTooltip) {
+		const tooltip = new Tooltip(id);
+		resultObject.tooltip = tooltip;
+	}
+	return resultObject;
+}
+export function alterIndex(array, index, callback) {
+	return array.map((e, i) => (i === index ? callback(e) : e));
+}
+export function progressNumber(endNumber, element) {
+	let num = 0;
+	element.text(`${num}%`);
+	const interval = setInterval(() => {
+		num++;
+		element.text(`${num}%`);
+		if (num === endNumber) {
+			clearInterval(interval);
+		}
+	}, 20);
+}
+export function getPercentageDifference(val1, val2) {
+	return Math.round((val1 / val2) * 100);
 }
