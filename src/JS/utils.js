@@ -91,6 +91,7 @@ export function alterIndex(array, index, callback) {
 	return array.map((e, i) => (i === index ? callback(e) : e));
 }
 export function progressNumber(endNumber, element) {
+	// Gets d3 text element (second arg) and progresses it up to a certain number (first arg)
 	let num = 0;
 	element.text(`${num}%`);
 	const interval = setInterval(() => {
@@ -103,4 +104,7 @@ export function progressNumber(endNumber, element) {
 }
 export function getPercentageDifference(val1, val2) {
 	return Math.round((val1 / val2) * 100);
+}
+export function midAngle(d) {
+	return d.startAngle + (d.endAngle - d.startAngle) / 2;
 }
