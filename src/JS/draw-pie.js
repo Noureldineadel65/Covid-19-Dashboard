@@ -6,13 +6,13 @@ import {
 	progressNumber,
 	getPercentageDifference,
 } from "./utils";
+const { dimensions, wrapper, bounds, tooltip } = generateChartContainer(
+	"pie-chart",
+	[0, 0, 0, 0],
+	true
+);
 
 export default function (datasets, currentSelectedDate) {
-	const { dimensions, wrapper, bounds, tooltip } = generateChartContainer(
-		"pie-chart",
-		[0, 0, 0, 0],
-		true
-	);
 	const { data, minYear, maxYear } = datasets;
 	const colorPallet = ["#390099", "#9E0059", "#FF5400", "#FF0054", "#FFBD00"];
 
@@ -54,8 +54,9 @@ export default function (datasets, currentSelectedDate) {
 		.attr("d", path)
 		.on("mouseenter", onMouseEnter)
 		.on("mouseleave", onMouseLeave);
-
 	tooltip.arrow(false);
+	u.exit().remove();
+
 	function onMouseEnter(datum) {
 		tooltip.position({
 			x: d3.event.pageX - wrapper.attr("width") - 50,
@@ -108,11 +109,12 @@ export default function (datasets, currentSelectedDate) {
 	}
 	const labelGroup = bounds.append("g").classed("label", true);
 
-	const polylines = labelGroup
-		.selectAll("polyline")
-		.data(arcs)
+	const updatePolylines = labelGroup.selectAll("polyline").data(arcs);
+	const polylines = updatePolylines
 		.enter()
 		.append("polyline")
+		.merge(updatePolylines)
+
 		.attr("stroke", "#b9b4b2")
 		.style("fill", "none")
 		.attr("stroke-width", 1.5)
@@ -142,6 +144,7 @@ export default function (datasets, currentSelectedDate) {
 				alterIndex(pos, 1, applyFormula),
 			];
 		});
+	updatePolylines.exit().remove();
 	const labels = labelGroup
 		.selectAll("text")
 		.data(arcs)
@@ -181,7 +184,7 @@ export default function (datasets, currentSelectedDate) {
 	const legend = bounds.append("g").classed("legend-pie", true);
 	legend.style(
 		"transform",
-		`translate(${dimensions.width + 80}px, ${-dimensions.height - 50}px)`
+		`translate(${dimensions.width + 25}px, ${-dimensions.height - 80}px)`
 	);
 	const legendRect = legend
 		.append("g")

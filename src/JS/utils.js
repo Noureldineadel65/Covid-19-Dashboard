@@ -52,13 +52,17 @@ export function generateChartContainer(id, margins, enableTooltip = false) {
 	};
 	const wrapper = d3
 		.select(`#${id}`)
+
 		.append("svg")
+		.attr("id", `${id}-wrapper`)
 		.attr("width", currentDiv.clientWidth)
 
 		.attr("height", currentDiv.clientHeight);
 
-	const bounds = wrapper
+	let bounds = wrapper
+
 		.append("g")
+		.attr("id", `${id}-bound`)
 		.attr(
 			"transform",
 			`translate(${
