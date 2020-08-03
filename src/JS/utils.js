@@ -35,8 +35,8 @@ export function generateChartContainer(id, margins, enableTooltip = false) {
 
 	const [top, right, bottom, left] = margins;
 	const dimensions = {
-		width: currentDiv.clientWidth * 0.4,
-		height: currentDiv.clientHeight * 0.4,
+		width: currentDiv.clientWidth * 0.238,
+		height: currentDiv.clientHeight * 0.238,
 		margin: {
 			top,
 			right,

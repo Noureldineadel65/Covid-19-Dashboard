@@ -58,8 +58,8 @@ export default function (datasets, currentSelectedDate) {
 	tooltip.arrow(false);
 	function onMouseEnter(datum) {
 		tooltip.position({
-			x: d3.event.pageX - wrapper.attr("width"),
-			y: d3.event.pageY,
+			x: d3.event.pageX - wrapper.attr("width") - 50,
+			y: d3.event.pageY - 200,
 		});
 		const { location, weekly_cases } = datum.data;
 		const perc = wrapper
@@ -70,8 +70,21 @@ export default function (datasets, currentSelectedDate) {
 			.attr("y", dimensions.height)
 			.style(
 				"transform",
+				`translate(calc(50% - ${dimensions.width}px),calc(50% - ${dimensions.height}px))`
+			)
+			.style("text-anchor", "middle");
+		wrapper
+			.append("text")
+			.classed("progress-exp", true)
+			.text("of top 5 countries")
+
+			.style("font-size", `${dimensions.width / 150}rem`)
+			.attr("x", dimensions.width)
+			.attr("y", dimensions.height)
+			.style(
+				"transform",
 				`translate(calc(50% - ${dimensions.width}px),calc(50% - ${
-					dimensions.height - 20
+					dimensions.height - (dimensions.width / 45) * 5
 				}px))`
 			)
 			.style("text-anchor", "middle");
@@ -87,6 +100,7 @@ export default function (datasets, currentSelectedDate) {
 	function onMouseLeave(datum) {
 		tooltip.hide();
 		wrapper.selectAll(".progress").remove();
+		wrapper.selectAll(".progress-exp").remove();
 		d3.select(this)
 			.transition()
 			.duration(250)
@@ -101,7 +115,7 @@ export default function (datasets, currentSelectedDate) {
 		.append("polyline")
 		.attr("stroke", "#b9b4b2")
 		.style("fill", "none")
-		.attr("stroke-width", 1)
+		.attr("stroke-width", 1.5)
 		.attr("points", function (d) {
 			const pos = outerArc.centroid(d);
 			if (d.endAngle - d.startAngle < 0.13) {
@@ -167,7 +181,7 @@ export default function (datasets, currentSelectedDate) {
 	const legend = bounds.append("g").classed("legend-pie", true);
 	legend.style(
 		"transform",
-		`translate(${dimensions.width - 40}px, ${-dimensions.height}px)`
+		`translate(${dimensions.width + 80}px, ${-dimensions.height - 50}px)`
 	);
 	const legendRect = legend
 		.append("g")
