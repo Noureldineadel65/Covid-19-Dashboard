@@ -34,9 +34,20 @@ export function generateChartContainer(id, margins, enableTooltip = false) {
 	const currentDiv = document.querySelector(`#${id}`);
 
 	const [top, right, bottom, left] = margins;
+	console.log(
+		currentDiv.clientWidth * 0.239 <= 114
+			? 150
+			: currentDiv.clientWidth * 0.239
+	);
 	const dimensions = {
-		width: currentDiv.clientWidth * 0.238,
-		height: currentDiv.clientHeight * 0.238,
+		width:
+			currentDiv.clientWidth * 0.239 <= 114
+				? 150
+				: currentDiv.clientWidth * 0.239,
+		height:
+			currentDiv.clientWidth * 0.239 <= 114
+				? 150
+				: currentDiv.clientWidth * 0.239,
 		margin: {
 			top,
 			right,
@@ -90,6 +101,14 @@ export function generateChartContainer(id, margins, enableTooltip = false) {
 export function alterIndex(array, index, callback) {
 	return array.map((e, i) => (i === index ? callback(e) : e));
 }
+function getRandomColor() {
+	var letters = "0123456789ABCDEF";
+	var color = "#";
+	for (var i = 0; i < 6; i++) {
+		color += letters[Math.floor(Math.random() * 16)];
+	}
+	return color;
+}
 export function progressNumber(endNumber, element) {
 	// Gets d3 text element (second arg) and progresses it up to a certain number (first arg)
 	let num = 0;
@@ -107,4 +126,42 @@ export function getPercentageDifference(val1, val2) {
 }
 export function midAngle(d) {
 	return d.startAngle + (d.endAngle - d.startAngle) / 2;
+}
+export function generateRandomColorsForCountries(dataset) {
+	const countries = Object.keys(dataset.data).map((e) => {
+		return Object.keys(dataset.data[e]);
+	});
+	const highestNum = d3.extent(countries, (e) => e.length)[1];
+	const res = Object.values(dataset.data).find((e) => {
+		return Object.keys(e).length === highestNum;
+	});
+
+	const res2 = Object.keys(res).map((e) => {
+		return {
+			country: e,
+			color: getRandomColor(),
+		};
+	});
+
+	return d3
+		.scaleOrdinal()
+		.domain(res2.map((e) => e.country))
+		.range(res2.map((e) => e.color));
+}
+export function getMonth(month) {
+	const monthNames = [
+		"January",
+		"February",
+		"March",
+		"April",
+		"May",
+		"June",
+		"July",
+		"August",
+		"September",
+		"October",
+		"November",
+		"December",
+	];
+	return monthNames[month];
 }

@@ -7,7 +7,7 @@ import {
 	getPercentageDifference,
 	midAngle,
 } from "./utils";
-import { transition } from "d3";
+
 const { dimensions, wrapper, bounds, tooltip } = generateChartContainer(
 	"pie-chart",
 	[0, 0, 0, 0],
@@ -37,7 +37,9 @@ const labelGroup = bounds.append("g").classed("label", true);
 const legend = bounds.append("g").classed("legend-pie", true);
 legend.style(
 	"transform",
-	`translate(${dimensions.width + 25}px, ${-dimensions.height - 80}px)`
+	`translate(calc(50% + ${dimensions.width - 300}px), calc(-50% + ${
+		dimensions.height / 10
+	}px))`
 );
 // Generating label group for Squares
 const legendRectGroup = legend.append("g").classed("rect-colors", true);

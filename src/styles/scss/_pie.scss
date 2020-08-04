@@ -2,3 +2,11 @@
 	font-size: 5rem;
 	font-weight: bolder;
 }
+.label {
+	pointer-events: none;
+}
+#pie-chart {
+	svg {
+		transform: translateY(-50%);
+	}
+}

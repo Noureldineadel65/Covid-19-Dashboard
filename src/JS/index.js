@@ -1,6 +1,11 @@
 import "../styles/scss/main.scss";
 import * as d3 from "d3";
-import { formatCSV, formatData } from "./utils";
+import {
+	formatCSV,
+	formatData,
+	generateRandomColorsForCountries,
+	getMonth,
+} from "./utils";
 import drawPie from "./draw-pie";
 import drawMap from "./draw-map";
 d3.csv("./data/full_data.csv", formatCSV)
@@ -24,16 +29,23 @@ function setUpDashboard(data) {
 		.range(d3.extent(dates));
 	function changeInputRange(value) {
 		const currentSelectedDate = inputScale(value);
+		document.getElementById("fullDate").innerHTML = `${getMonth(
+			currentSelectedDate.getUTCMonth()
+		)} ${currentSelectedDate.getDate()} ${currentSelectedDate.getFullYear()}`;
+
 		currentDate.text(timeFormat(currentSelectedDate));
 		drawGraphs(dataset, timeFormat(currentSelectedDate));
 	}
 	changeInputRange(Object.keys(dataset.data).length);
-	input.on("change", function (e) {
+	input.on("input", function (e) {
 		changeInputRange(d3.event.target.value);
 	});
 }
 function drawGraphs(dataset, currentSelectedDate) {
+	console.log(generateRandomColorsForCountries(dataset));
 	drawMap(dataset, currentSelectedDate);
 	drawPie(dataset, currentSelectedDate);
 }
-function handleError(e) {}
+function handleError(e) {
+	// alert("Error");
+}
