@@ -165,3 +165,18 @@ export function getMonth(month) {
 	];
 	return monthNames[month];
 }
+export function getAccessor(name) {
+	const accessors = {
+		biweekly_cases: (e) => e.biweekly_cases,
+		biweekly_deaths: (e) => e.biweekly_deaths,
+		date: (e) => e.date,
+		location: (e) => e.location,
+		new_cases: (e) => e.new_cases,
+		new_deaths: (e) => e.new_deaths,
+		total_cases: (e) => e.total_cases,
+		total_deaths: (e) => e.total_deaths,
+		weekly_cases: (e) => e.weekly_cases,
+		weekly_deaths: (e) => e.weekly_deaths,
+	};
+	return accessors[name];
+}

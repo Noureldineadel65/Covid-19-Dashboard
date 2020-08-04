@@ -17,8 +17,7 @@ const { dimensions, wrapper, bounds, tooltip } = generateChartContainer(
 tooltip.arrow(false);
 // Pallet for chart
 const colorPallet = ["#390099", "#9E0059", "#FF5400", "#FF0054", "#FFBD00"];
-// Get Accessors
-const weeklyAccessor = (d) => d.weekly_cases;
+
 // Generating Path function for Pie Chart
 const path = d3
 	.arc()
@@ -48,11 +47,12 @@ const legendTextGroup = legend.append("g").classed("legend-labels", true);
 
 // Update Pattern
 
-export default function (datasets, currentSelectedDate) {
+export default function (datasets, currentSelectedDate, accessorFunction) {
 	const { data, minYear, maxYear } = datasets;
+
 	const dataset = Object.values(data[currentSelectedDate])
-		.filter(weeklyAccessor)
-		.sort((a, b) => weeklyAccessor(b) - weeklyAccessor(a))
+		.filter(accessorFunction)
+		.sort((a, b) => accessorFunction(b) - accessorFunction(a))
 		.filter((e) => e.location !== "World" && e.location !== "International")
 		.slice(0, 5);
 
@@ -64,7 +64,7 @@ export default function (datasets, currentSelectedDate) {
 	const sumCases = dataset
 		.map((e) => e.weekly_cases)
 		.reduce((a, b) => a + b, 0);
-	const arcs = d3.pie().value(weeklyAccessor)(dataset);
+	const arcs = d3.pie().value(accessorFunction)(dataset);
 
 	const pieChartUpdate = pieChart.selectAll("path").data(arcs);
 	const updatePolylines = labelGroup.selectAll("polyline").data(arcs);
